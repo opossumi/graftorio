@@ -26,6 +26,7 @@ function translate.translate(request, callback)
   if type(request) == "table" then
     request = game.table_to_json(request)
   end
+  request = game.encode_string(request)
   if script_data.translations[request] then
     return callback(script_data.translations[request])
   end
@@ -55,9 +56,7 @@ function translate.on_configuration_changed(event)
     translation_in_progress = {},
     translation_tries = {}
   }
-  if not global.translation_script then
-    global.translation_script = script_data
-  end
+  global.translation_script = script_data
 end
 
 translate.events = {
@@ -87,12 +86,14 @@ translate.events = {
         local i = 1
         local remove = {}
         local json_to_table = game.json_to_table
+        local decode = game.decode_string
         for _, player in pairs(game.connected_players) do
           for request_string, callbacks in pairs(script_data.translation_request) do
             if not remove[request_string] then
               if i == translate.config.batch_size then
                 break
               end
+              request_string = decode(request_string)
               if request_string:sub(1, 1) == "{" or request_string:sub(1, 1) == "[" then
                 player.request_translation(json_to_table(request_string))
               else
@@ -118,6 +119,7 @@ translate.events = {
     if type(str) == "table" then
       str = game.table_to_json(str)
     end
+    str = game.encode_string(str)
     if not event.translated then
       result = event.localised_string[1]:gsub("entity%-name%.", ""):gsub("technology%-name%.", ""):gsub("recipe%-name%.", ""):gsub("item%-name%.", ""):gsub("fluid%-name%.", "")
     end
@@ -128,6 +130,7 @@ translate.events = {
       end
     end
     script_data.translation_in_progress[str] = nil
+    script_data.translation_tries[str] = nil
   end
 }
 

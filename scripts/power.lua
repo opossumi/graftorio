@@ -10,12 +10,8 @@ local map = {}
 
 local function new_entity_entry(entity)
   local base = {
-    entity_number = entity.unit_number,
-    prev = {input = {}, output = {}}
+    entity_number = entity.unit_number
   }
-  if script_data.networks[entity.electric_network_id] then
-    base.prev = script_data.networks[entity.electric_network_id].prev
-  end
   script_data.networks[entity.electric_network_id] = base
   map[entity.unit_number] = entity
 end
@@ -143,6 +139,14 @@ local lib = {
     if global.power_data.switches == nil then
       global.power_data.switches = {}
     end
+
+    -- Cleanup old prev stats
+    for _, net in pairs(script_data.networks) do
+      if net and net.prev then
+        net.prev = nil
+      end
+    end
+
     -- Basicly only when first added or version changed
     -- Power network is added in .10
     if not script_data.has_checked then
