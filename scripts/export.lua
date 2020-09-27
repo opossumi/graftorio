@@ -64,6 +64,7 @@ local lib = {
           end
           insert(result, "")
         end
+        d.chunks[d.current] = nil
         d.current = d.current + 1
         if d.save_mode then
           game.write_file("graftorio/game.prom", table.concat(result, "\n") .. "\n", true, 0)
