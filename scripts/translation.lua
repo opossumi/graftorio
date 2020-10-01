@@ -93,11 +93,11 @@ translate.events = {
               if i == translate.config.batch_size then
                 break
               end
-              request_string = decode(request_string)
-              if request_string:sub(1, 1) == "{" or request_string:sub(1, 1) == "[" then
-                player.request_translation(json_to_table(request_string))
+              local decoded_request_string = decode(request_string)
+              if decoded_request_string:sub(1, 1) == "{" or decoded_request_string:sub(1, 1) == "[" then
+                player.request_translation(json_to_table(decoded_request_string))
               else
-                player.request_translation(request_string)
+                player.request_translation(decoded_request_string)
               end
               script_data.translation_in_progress[request_string] = {tick = event.tick, callbacks = callbacks}
               script_data.translation_tries[request_string] = (script_data.translation_tries[request_string] or 0) + 1

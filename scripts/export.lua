@@ -21,7 +21,7 @@ end
 
 local function doExport()
   local reg = prometheus.get_registry()
-  local chunkSize = math.ceil(table_size(reg.collectors) / 10)
+  local chunkSize = math.ceil(table_size(reg.collectors) / 6)
   for _, registered_callback in ipairs(reg.callbacks) do
     registered_callback()
   end
@@ -59,10 +59,12 @@ local lib = {
         local insert = table.insert
         local result = {}
         for _, collector in pairs(d.chunks[d.current]) do
-          for _, metric in ipairs(collector:collect()) do
-            insert(result, metric)
+          if collector and type(collector.collect) == "function" then
+            for _, metric in ipairs(collector:collect()) do
+              insert(result, metric)
+            end
+            insert(result, "")
           end
-          insert(result, "")
         end
         d.chunks[d.current] = nil
         d.current = d.current + 1
