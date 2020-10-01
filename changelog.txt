@@ -1,5 +1,11 @@
 ---------------------------------------------------------------------------------------------------
 Version: 1.0.27
+Date: 01. 10. 2020
+	Bugfixes:
+		- Somehow you can get tick perfect pausing on a server it can crash the
+		server
+---------------------------------------------------------------------------------------------------
+Version: 1.0.27
 Date: 27. 09. 2020
   Bugfixes:
     - Some random crashes.
