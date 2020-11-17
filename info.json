@@ -1,10 +1,10 @@
 {
-  "name": "graftorio",
+  "name": "tupsula-graftorio",
   "version": "1.0.28",
-  "title": "graftorio",
-  "author": "afex",
-  "description": "visualize metrics from your factorio game in grafana",
-  "homepage": "https://github.com/afex/graftorio",
+  "title": "tupsula-graftorio",
+  "author": "opossumi",
+  "description": "visualize metrics from your factorio game in grafana. Originally made by afex and modified by TheVirtualCrew",
+  "homepage": "https://github.com/opossumi/graftorio",
   "dependencies": [
     "base >= 1.0"
   ],
